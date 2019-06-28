@@ -27,12 +27,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'django.contrib.sites',
     'drf_yasg',
     'django_filters',
     'djoser',
-    'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist',
 
     'api',
     'yasg'
@@ -48,7 +45,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'drfx.urls'
+ROOT_URLCONF = 'quizzes.urls'
 
 TEMPLATES = [
     {
@@ -66,7 +63,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'drfx.wsgi.application'
+WSGI_APPLICATION = 'quizzes.wsgi.application'
 
 
 # Database
@@ -164,14 +161,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTTokenUserAuthentication',
-        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-        # 'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     )
-}
-
-SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 SWAGGER_SETTINGS = {

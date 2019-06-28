@@ -5,9 +5,9 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="drfx API",
+        title="Quizzes API",
         default_version='v1',
-        description="Description for drfx API",
+        description="Description for quizzes API",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="contact@snippets.local"),
         license=openapi.License(name="BSD License"),
