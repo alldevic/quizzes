@@ -6,7 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-django = "==2.2.0"
+django = "==2.2.2"
 djangorestframework = "==3.9.2"
 drf-yasg = "==1.15.1"
 djangorestframework-jsonapi = "==2.8.0"
