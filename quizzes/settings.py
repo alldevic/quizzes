@@ -33,7 +33,8 @@ INSTALLED_APPS = [
     'djoser',
 
     'api',
-    'yasg'
+    'yasg',
+    'checklist',
 ]
 
 MIDDLEWARE = [
