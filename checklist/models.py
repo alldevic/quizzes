@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
+import datetime
 import uuid
-import quizzes.settings
 
 # Create your models here.
 
@@ -10,7 +10,7 @@ class Car(models.Model):
     """
     Represeting a car
     """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False,
                           help_text="Уникальный ID автомобиля")
 
     reg_id = models.CharField(
@@ -22,7 +22,7 @@ class Car(models.Model):
 
 
 class Platform(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False,
                           help_text="Уникальный ID площадки")
 
     address = models.CharField(max_length=150, help_text="Адрес площадки")
@@ -32,7 +32,7 @@ class Platform(models.Model):
 
 
 class ChecklistType(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False,
                           help_text="Уникальный ID типа чеклиста")
 
     label = models.CharField(max_length=50, help_text="Название типа")
@@ -42,7 +42,7 @@ class ChecklistType(models.Model):
 
 
 class AnswerType(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False,
                           help_text="Уникальный ID типа ответа")
 
     label = models.CharField(max_length=50, help_text="Название типа")
@@ -52,20 +52,20 @@ class AnswerType(models.Model):
 
 
 class Answer(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False,
                           help_text="Уникальный ID ответа")
 
     label = models.CharField(max_length=50, help_text="Текст ответа")
 
-    type = models.ForeignKey(
-        'AnswerType', on_delete=models.SET_NULL, null=True, help_text="Тип ответа")
+    type = models.ForeignKey('AnswerType', on_delete=models.SET_NULL,
+                             null=True, help_text="Тип ответа")
 
     def __str__(self):
         return self.label
 
 
 class Question(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False,
                           help_text="Уникальный ID вопроса")
 
     label = models.CharField(max_length=300, help_text="Текст вопроса")
@@ -80,14 +80,14 @@ class Question(models.Model):
         """
         Returns the url to access a particular question instance
         """
-        return reverse('question-detail', args=[str(self.id)])
+        return reverse('question-details', args=[str(self.id)])
 
     def __str__(self):
         return f"{self.label} ({'/'.join(map(str, self.answers.all()))})"
 
 
 class Checklist(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False,
                           help_text="Уникальный ID чеклиста")
 
     label = models.CharField(max_length=300, help_text="Текст заголовка")
@@ -99,7 +99,7 @@ class Checklist(models.Model):
         Question, help_text="Выберите вопросы дляя чеклиста")
 
     def __str__(self):
-        return f"{self.label} ({self.type}, {self.id})"
+        return self.label
 
 
 class Staff(models.Model):
@@ -112,16 +112,27 @@ class Staff(models.Model):
         return self.name
 
 
-class ChecklistEntity(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+class ChecklistInstance(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False,
                           help_text="Уникальный ID чеклиста")
     staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
-    Platform
-    date = models.DateField(auto_now=False, auto_now_add=False)
-    time = models.TimeField(auto_now=False, auto_now_add=False)
+    platform = models.ForeignKey(Platform, on_delete=models.CASCADE)
+    date = models.DateField(default=datetime.date.today)
+    time = models.TimeField(default=datetime.datetime.now())
 
     checklist = models.ForeignKey(Checklist, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.checklist.label
+
+
+class FilledChecklistInstance(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False,
+                          help_text="Уникальный ID чеклиста")
+
+    checklist_entity = models.ForeignKey(
+        ChecklistInstance, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.checklist_entity.checklist.label

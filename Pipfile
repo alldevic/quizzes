@@ -7,11 +7,6 @@ verify_ssl = true
 
 [packages]
 django = "==2.2.2"
-djangorestframework = "==3.9.3"
-drf-yasg = "==1.16.0"
-djangorestframework-jsonapi = "==2.8.0"
-django-filter = "==2.1.0"
-djoser = "==1.7.0"
 
 [requires]
 python_version = "3.6"

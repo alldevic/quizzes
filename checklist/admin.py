@@ -1,13 +1,55 @@
 from django.contrib import admin
-from .models import Car, Platform, ChecklistType, Answer, Question, AnswerType, Checklist, Staff, ChecklistEntity
+from .models import Car, AnswerType, Answer, FilledChecklistInstance, Platform
+from .models import Checklist, ChecklistInstance, ChecklistType, Question, Staff
 
 # Register your models here.
-admin.site.register(Car)
-admin.site.register(Platform)
-admin.site.register(ChecklistType)
-admin.site.register(AnswerType)
-admin.site.register(Answer)
-admin.site.register(Question)
-admin.site.register(Checklist)
-admin.site.register(Staff)
-admin.site.register(ChecklistEntity)
+
+
+@admin.register(AnswerType)
+class AnswerTypeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Answer)
+class AnswerAdmin(admin.ModelAdmin):
+    list_display = ('label', 'type')
+
+
+@admin.register(Car)
+class CarAdmin(admin.ModelAdmin):
+    list_display = ('reg_id', 'model')
+
+
+@admin.register(ChecklistInstance)
+class ChecklistEntityAdmin(admin.ModelAdmin):
+    list_display = ('checklist', 'staff', 'car', 'platform', 'date', 'time')
+
+
+@admin.register(ChecklistType)
+class ChecklistTypeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Checklist)
+class ChecklistAdmin(admin.ModelAdmin):
+    list_display = ('label', 'type')
+
+
+@admin.register(FilledChecklistInstance)
+class FilledChecklistEntityAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Platform)
+class PlatformAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Question)
+class QuestionAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Staff)
+class StaffAdmin(admin.ModelAdmin):
+    list_display = ('name', 'position')
