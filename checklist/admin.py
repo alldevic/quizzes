@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Car, AnswerType, Answer, FilledChecklistEntity, Platform
-from .models import Checklist, ChecklistEntity, ChecklistType, Question, Staff
+from .models import Car, AnswerType, Answer, FilledChecklistInstance, Platform
+from .models import Checklist, ChecklistInstance, ChecklistType, Question, Staff
 
 # Register your models here.
 
@@ -20,13 +20,9 @@ class CarAdmin(admin.ModelAdmin):
     list_display = ('reg_id', 'model')
 
 
-class ChecklistEntityInline(admin.TabularInline):
-    model = ChecklistEntity
-
-
-@admin.register(ChecklistEntity)
+@admin.register(ChecklistInstance)
 class ChecklistEntityAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('checklist', 'staff', 'car', 'platform', 'date', 'time')
 
 
 @admin.register(ChecklistType)
@@ -36,10 +32,10 @@ class ChecklistTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Checklist)
 class ChecklistAdmin(admin.ModelAdmin):
-    inlines = [ChecklistEntityInline]
+    list_display = ('label', 'type')
 
 
-@admin.register(FilledChecklistEntity)
+@admin.register(FilledChecklistInstance)
 class FilledChecklistEntityAdmin(admin.ModelAdmin):
     pass
 
