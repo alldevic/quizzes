@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Car, AnswerType, Answer, FilledChecklistInstance, Platform
 from .models import Checklist, ChecklistInstance, ChecklistType, Question, Staff
+from .models import AnsweredQuestion
 
 # Register your models here.
 
@@ -21,7 +22,7 @@ class CarAdmin(admin.ModelAdmin):
 
 
 @admin.register(ChecklistInstance)
-class ChecklistEntityAdmin(admin.ModelAdmin):
+class ChecklistInstanceAdmin(admin.ModelAdmin):
     list_display = ('checklist', 'staff', 'car', 'platform', 'date', 'time')
 
 
@@ -36,7 +37,7 @@ class ChecklistAdmin(admin.ModelAdmin):
 
 
 @admin.register(FilledChecklistInstance)
-class FilledChecklistEntityAdmin(admin.ModelAdmin):
+class FilledChecklistInstanceAdmin(admin.ModelAdmin):
     pass
 
 
@@ -53,3 +54,8 @@ class QuestionAdmin(admin.ModelAdmin):
 @admin.register(Staff)
 class StaffAdmin(admin.ModelAdmin):
     list_display = ('name', 'position')
+
+
+@admin.register(AnsweredQuestion)
+class AnsweredQuestion(admin.ModelAdmin):
+    pass

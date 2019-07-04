@@ -136,3 +136,13 @@ class FilledChecklistInstance(models.Model):
 
     def __str__(self):
         return self.checklist_entity.checklist.label
+
+
+class AnsweredQuestion(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    checklist = models.ForeignKey(ChecklistInstance, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.question}/{self.answer}"
